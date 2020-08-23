@@ -6,7 +6,9 @@ plugins {
 
 group = 'com.mini-blog'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '14.0.1'
+//sourceCompatibility = '14.0.1'
+sourceCompatibility = '1.8'
+
 
 repositories {
 	mavenCentral()
