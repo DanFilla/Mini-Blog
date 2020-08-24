@@ -19,8 +19,10 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
+        Iterable statusList = statusRepository.findAll();
 
         model.addAttribute("title", "Mini-Blog");
+        model.addAttribute("statusList", statusList);
 
         return "index";
     }
@@ -33,12 +35,13 @@ public class HomeController {
 
     @PostMapping("/post")
     public String post(@ModelAttribute @Valid Status newStatus, Errors errors, Model model) {
+
         if (errors.hasErrors()) {
             return "index";
         }
 
         statusRepository.save(newStatus);
 
-        return "index";
+        return "redirect:/";
     }
 }

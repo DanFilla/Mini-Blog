@@ -8,7 +8,12 @@
 </head>
 <nav th:replace="fragments :: nav"></nav>
 <body>
-<h1>This is the index page.</h1>
+<table>
+    <tr th:each="status : ${statusList}">
+        <td th:text="${status.user}"></td>
+        <td th:text="${status.body}"></td>
+    </tr>
+</table>
 
 </body>
 </html>
