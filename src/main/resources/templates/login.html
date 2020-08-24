@@ -6,32 +6,18 @@
     <title></title>
 </head>
 <nav th:replace="fragments :: nav"></nav>
-<h1>This is a title!!!</h1>
-<p>Register here <a href="/register">REGISTER</a></p>
 <body>
-<form method="post">
-          <div class="form-group">
-             <label th:for="username">Username
-                 <input class="form-control" th:field="${loginFormDTO.username}"/>
-             </label>
-             <p class="error" th:errors="${loginFormDTO.username}"></p>
-         </div>
-         <div class="form-group">
-             <label>Password
-                 <input class="form-control" th:field="${loginFormDTO.password}" type="password">
-             </label>
-             <p class="error" th:errors="${loginFormDTO.password}"></p>
-         </div>
-<!--         <div class="form-group">-->
-<!--             <label>Verify Password-->
-<!--                 <input class="form-control" th:field="${loginFormDTO.password}" type="password">-->
-<!--             </label>-->
-<!--             <p class="error" th:errors="${loginFormDTO.password}"></p>-->
-<!--         </div>-->
-
-         <input type="submit" class="btn btn-primary" value="Log In"/>
-     </form>
-
+<div id="container">
+    <h2>Login page</h2>
+    <form th:action="@{/login.html}" method="post">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autofocus="autofocus" />
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" />
+        <input id="submit" type="submit" value="Log in" />
+    </form>
+    <p th:if="${loginError}" class="error">Wrong user or password</p>
+</div>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 package com.miniblog.miniblog.models.dto;
 
-public class registerFormDTO {
+public class registerFormDTO extends loginFormDTO{
 
     private String verifyPassword;
 
