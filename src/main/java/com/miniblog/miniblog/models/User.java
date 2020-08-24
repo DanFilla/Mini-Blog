@@ -12,12 +12,28 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private int id;
+
 
     private String username;
     private String password;
     private boolean active;
     private String roles;
+
+//    public User(){}
+
+//    public User(Status body) {
+//        this.body = body;
+//    }
+//
+//    public Status getBody() {
+//        return body;
+//    }
+
+//    public void setBody(Status body) {
+//        this.body = body;
+//    }
 
     public int getId() {
         return id;
