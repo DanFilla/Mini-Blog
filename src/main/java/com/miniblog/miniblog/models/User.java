@@ -12,7 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private int id;
 
 
@@ -21,11 +21,21 @@ public class User {
     private boolean active;
     private String roles;
 
-//    public User(){}
+    public User(){}
 
-//    public User(Status body) {
-//        this.body = body;
-//    }
+    public User(String username, String password, String roles)  {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.roles = "USER";
+        this.active = true;
+    }
+
 //
 //    public Status getBody() {
 //        return body;
@@ -36,11 +46,11 @@ public class User {
 //    }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id= id;
     }
 
     public String getUsername() {

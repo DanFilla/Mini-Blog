@@ -5,7 +5,7 @@
     <title></title>
 </head>
 <body>
-<form method="post" style="max-width:600px;">
+<form method="post" th:action="@{/post}" style="max-width:600px;">
     <div class="form-group">
         <input class="form-control" th:field="${status.body}" />
         <span th:errors="${status.body}" class="error"></span>

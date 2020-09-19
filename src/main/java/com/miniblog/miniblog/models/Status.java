@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "post")
 public class Status {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "post_id")
@@ -15,8 +16,8 @@ public class Status {
     @Column(name = "body", columnDefinition = "TEXT")
     private String body;
 
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional=false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Status(){ }

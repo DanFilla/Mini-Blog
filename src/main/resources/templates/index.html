@@ -4,16 +4,43 @@
     <meta charset="UTF-8"/>
     <title></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 <nav th:replace="fragments :: nav"></nav>
 <body>
-<table>
-    <tr th:each="status : ${statusList}">
-        <td th:text="${status.user}"></td>
-        <td th:text="${status.body}"></td>
-    </tr>
-</table>
+
+<!--<table>-->
+<!--    <tr th:each="status : ${statusList}">-->
+<!--        <td th:text="${status.user.getUsername()}"></td>-->
+<!--        <td> - </td>-->
+<!--        <td th:text="${status.body}"></td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+<div>
+<th:block th:each="status : ${statusList}">
+    <div class="username-container">
+        <a th:href="@{profile/{id}(id = ${status.user.getId()})}">
+            <h6 th:text="${status.user.getUsername()}"></h6>
+        </a>
+    </div>
+
+    <div class="status-container">
+        <p th:text="${status.body}"></p>
+    </div>
+</th:block>
+</div>
+
+<div class="status-input">
+    <form method="post" th:action="@{/post}">
+        <div class="form-group">
+            <input class="form-control" th:field="${status.body}" />
+            <span th:errors="${status.body}" class="error"></span>
+        </div>
+        <input type="submit" value="post" />
+    </form>
+</div>
+
 
 </body>
 </html>
