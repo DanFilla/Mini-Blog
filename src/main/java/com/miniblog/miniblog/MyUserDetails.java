@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
 
+    private int id;
     private String username;
     private String password;
     private boolean active;
@@ -21,6 +22,7 @@ public class MyUserDetails implements UserDetails {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.active = user.isActive();
+        this.id = user.getId();
         this.authorities = Arrays.stream(user.getRoles().split(","))
                             .map(SimpleGrantedAuthority::new)
                             .collect(Collectors.toList());
@@ -40,6 +42,8 @@ public class MyUserDetails implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+    public int getId() { return this.id; }
 
     @Override
     public boolean isAccountNonExpired() {

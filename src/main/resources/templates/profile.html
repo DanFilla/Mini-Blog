@@ -7,6 +7,16 @@
     <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 <nav th:replace="fragments :: nav"></nav>
+
+<div class="sidebar">
+    <h3 class="userTitle" th:text="${username}"></h3>
+    <a class="active" href="#">sdfasdf</a>
+    <form id="friendButton" method="post" th:action="@{/friend/{id}(id = ${id})}">
+<!--        <input type="hidden" th:field="${id}"/>-->
+        <input value="Request Friend" type="submit"/>
+    </form>
+</div>
+
 <body>
 <!--<table>-->
 <!--    <tr th:each="status : ${statusList}">-->

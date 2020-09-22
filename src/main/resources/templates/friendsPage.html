@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <title></title>
+</head>
+<body>
+
+<div>
+    <div class="friendsList">
+        <h1>Friends List</h1>
+        <block th:each="friend : ${friendsList}">
+            <div class="username-container">
+                <a th:href="@{profile/{id}(id = ${friend.getId()})}">
+                    <h3 th:text="${friend.getUsername()}"></h3>
+                </a>
+            </div>
+<!--            <p th:text="${friend.getUsername()}"></p>-->
+        </block>
+    </div>
+
+    <div class="pendingList">
+        <h1>Pending List</h1>
+        <block th:each="friend : ${pendingList}">
+            <span th:text="${friend.getUsername()}"></span>
+            <a th:href="@{friend/add/{id}(id = ${friend.getId()})}">Add Friend</a>
+            <br>
+        </block>
+    </div>
+</div>
+
+</body>
+</html>

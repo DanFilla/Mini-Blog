@@ -21,3 +21,9 @@
         </ul>
     </div>
 </nav>
+
+<div th:fragment="sidebar" class="sidebar">
+    <h3 class="userTitle" th:text="${username}"></h3>
+    <a class="active" th:href="@{/friend}">Friends Settings</a>
+    <h3>Friends</h3>
+</div>

@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 <nav th:replace="fragments :: nav"></nav>
+<div th:replace="fragments :: sidebar"></div>
 <body>
 
 <!--<table>-->
@@ -17,7 +18,7 @@
 <!--    </tr>-->
 <!--</table>-->
 
-<div>
+<div class="statusBox">
 <th:block th:each="status : ${statusList}">
     <div class="username-container">
         <a th:href="@{profile/{id}(id = ${status.user.getId()})}">

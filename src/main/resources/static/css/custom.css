@@ -1,3 +1,7 @@
+body {
+    overflow : hidden;
+}
+
 .status-container {
     position : relative;
     width : 60%;
@@ -13,14 +17,59 @@
 
 .status-input {
     max-width:600px;
-    height : 20px;
+    height : 10vh;
     position : relative;
     left : 20px;
+    text-align : center;
 }
 
 a, a:hover, a:focus, a:active {
     text-decoration : none;
     color : inherit;
+}
+
+.sidebar {
+    margine : 0;
+    padding : 0;
+    width : 200px;
+    background-color : gray;
+    position : absolute;
+    height : 100%;
+    overflow : auto;
+    right: 0;
+}
+
+.sidebar a {
+    display : block;
+    padding : 16px;
+    text-decoration: none;
+}
+
+.userTitle {
+    display : block;
+    text-align : center;
+    padding : 10px;
+}
+
+.friendsList {
+    display : inline-block;
+}
+
+.pendingList {
+    display : inline-block;
+}
+
+.statusBox {
+    height : 80vh;
+    overflow: auto;
+}
+
+
+
+#friendButton {
+    display : block;
+    text-align : center;
+    padding : 10px;
 }
 
 
