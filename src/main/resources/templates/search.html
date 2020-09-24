@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+</head>
+<nav th:replace="fragments :: nav"></nav>
+<div th:replace="fragments :: sidebar"></div>
+<body>
+<div class="statusBox">
+    <block th:each="user : ${matched}">
+        <div class="username-container">
+            <a th:href="@{profile/{id}(id = ${user.getId()})}">
+                <h6 th:text="${user.getUsername()}"></h6>
+            </a>
+        </div>
+        <br>
+    </block>
+</div>
+</body>
+</html>

@@ -57,6 +57,7 @@ a, a:hover, a:focus, a:active {
 
 .pendingList {
     display : inline-block;
+    padding: 60px;
 }
 
 .statusBox {
@@ -71,5 +72,11 @@ a, a:hover, a:focus, a:active {
     text-align : center;
     padding : 10px;
 }
+
+.search {
+    float : right;
+}
+
+
 
 

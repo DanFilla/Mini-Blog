@@ -2,9 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/custom.css}">
     <title></title>
 </head>
+<nav th:replace="fragments :: nav"></nav>
+<div th:replace="fragments :: sidebar"></div>
 <body>
 
 <div>
@@ -13,18 +16,32 @@
         <block th:each="friend : ${friendsList}">
             <div class="username-container">
                 <a th:href="@{profile/{id}(id = ${friend.getId()})}">
-                    <h3 th:text="${friend.getUsername()}"></h3>
+                    <h3 style="display: inline;" th:text="${friend.getUsername()}"></h3>
+                    <span><a class="btn btn-danger" th:href="@{friend/remove/{id}(id = ${friend.getId()})}">Remove Friend</a></span>
                 </a>
             </div>
-<!--            <p th:text="${friend.getUsername()}"></p>-->
+            <br>
         </block>
     </div>
 
     <div class="pendingList">
         <h1>Pending List</h1>
         <block th:each="friend : ${pendingList}">
-            <span th:text="${friend.getUsername()}"></span>
-            <a th:href="@{friend/add/{id}(id = ${friend.getId()})}">Add Friend</a>
+            <h3 style="display: inline" th:text="${friend.getUsername()}"></h3>
+            <span><a class="btn btn-success" th:href="@{friend/add/{id}(id = ${friend.getId()})}">Add Friend</a></span>
+            <br>
+        </block>
+    </div>
+
+    <div class="sent-list">
+        <h1>Sent requests</h1>
+        <block th:each="friend : ${sentList}">
+            <div class="username-container">
+                <a th:href="@{profile/{id}(id = ${friend.getId()})}">
+                    <h3 style="display: inline;" th:text="${friend.getUsername()}"></h3>
+                    <span><a class="btn btn-danger" th:href="@{friend/remove/{id}(id = ${friend.getId()})}">Remove Friend</a></span>
+                </a>
+            </div>
             <br>
         </block>
     </div>

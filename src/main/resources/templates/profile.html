@@ -27,7 +27,7 @@
 <!--</table>-->
 
 <div>
-    <th:block th:each="status : ${statusList}">
+    <th:block th:each="status : ${statusList}" th:if="${isFriend == true}">
         <div class="username-container">
             <a th:href="@{profile/{id}(id = ${status.user.getId()})}">
                 <h6 th:text="${status.user.getUsername()}"></h6>
