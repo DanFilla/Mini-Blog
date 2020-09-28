@@ -1,9 +1,11 @@
 package com.miniblog.miniblog.controllers;
 
 import com.miniblog.miniblog.MyUserDetails;
+import com.miniblog.miniblog.models.Comment;
 import com.miniblog.miniblog.models.Status;
 import com.miniblog.miniblog.models.User;
 import com.miniblog.miniblog.models.UserRelationship;
+import com.miniblog.miniblog.models.data.CommentRepository;
 import com.miniblog.miniblog.models.data.RelationshipRepository;
 import com.miniblog.miniblog.models.data.StatusRepository;
 import com.miniblog.miniblog.models.data.UserRepository;
@@ -19,26 +21,35 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
 
     @Autowired
     StatusRepository statusRepository;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     RelationshipRepository relationshipRepository;
+    @Autowired
+    CommentRepository commentRepository;
 
-    private void fragmentAttributes(Model model, UserDetails userForUsername) {
+    private void fragmentAttributes(Model model, UserDetails userForUsername, ArrayList<User> friendsList) {
         model.addAttribute("title", "Mini-Blog");
         model.addAttribute("username", userForUsername.getUsername());
+        model.addAttribute("friendsList", friendsList);
     }
 
     private boolean isFriend(int currentId, int possibleFriend) {
+        if (currentId == possibleFriend) {
+//            You are a friend to yourself :)
+            return true;
+        }
+
         Iterable<UserRelationship> relationshipList;
+
+        MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (currentId < possibleFriend) {
             relationshipList = relationshipRepository.findAllByUserIdOneId(currentId);
@@ -82,17 +93,20 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
         MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        fragmentAttributes(model, userDetails);
+        User user = userRepository.findById(userDetails.getId());
 
         ArrayList<Status> statusList = new ArrayList<Status>();
         ArrayList<User> friendsList = findAllFriends(userDetails.getId());
+        friendsList.add(user);
 
         for (User friend : friendsList) {
             statusList.addAll(statusRepository.findAllByUserId(friend.getId()));
         }
 
+        fragmentAttributes(model, userDetails, friendsList);
         model.addAttribute("statusList", statusList);
         model.addAttribute("userDetails", userDetails);
+        model.addAttribute("allFriends", friendsList);
         model.addAttribute(new Status());
 
         return "index";
@@ -124,7 +138,8 @@ public class HomeController {
         User user = userRepository.findById(userId);
         MyUserDetails userForUsername = new MyUserDetails(user);
 
-        fragmentAttributes(model, userForUsername);
+        ArrayList<User> friendsList = findAllFriends(userId);
+        fragmentAttributes(model, userForUsername, friendsList);
 
         model.addAttribute("isFriend", isFriend(currentUserId, userId));
         model.addAttribute("statusList", statusList);
@@ -167,13 +182,12 @@ public class HomeController {
     }
 
     @GetMapping("/friend")
+    public String friendsPage(Model model) {
 //    friend status codes:
 //        0: pending
 //        1: accepted
 //        2: declined
 //        3: blocked
-
-    public String friendsPage(Model model) {
 
         MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int currentUserId = userDetails.getId();
@@ -205,7 +219,7 @@ public class HomeController {
             }
         }
 
-        fragmentAttributes(model, userDetails);
+        fragmentAttributes(model, userDetails, friendsList);
 
         model.addAttribute("friendsList", friendsList);
         model.addAttribute("pendingList", pendingList);
@@ -264,6 +278,8 @@ public class HomeController {
 
     @GetMapping("/search")
     public String processSearch(Model model, @RequestParam(value="q") String q) {
+        MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int currentUserId = userDetails.getId();
 
         ArrayList<User> matched = new ArrayList<User>();
         ArrayList<User> userList = userRepository.findAll();
@@ -272,9 +288,48 @@ public class HomeController {
                 matched.add(user);
             }
         }
+        ArrayList<User> friendsList = findAllFriends(userDetails.getId());
+
+        fragmentAttributes(model, userDetails, friendsList);
 
         model.addAttribute("matched", matched);
 
         return "search";
     }
+
+    @GetMapping("/status/{id}")
+    public String displayStatusPage(@PathVariable("id") int statusId, Model model) {
+        MyUserDetails userDetails = (MyUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ArrayList<User> friendsList = findAllFriends(userDetails.getId());
+
+        ArrayList<Comment> commentList = commentRepository.findAllByStatusId(statusId);
+
+
+        Optional<Status> optStatus = statusRepository.findById(statusId);
+        optStatus.ifPresent(status -> model.addAttribute("status", status));
+        fragmentAttributes(model, userDetails, friendsList);
+        model.addAttribute("commentList", commentList);
+        model.addAttribute(new Comment());
+
+        return "status";
+    }
+
+    @PostMapping("/comment/{id}")
+    public String processComment(@ModelAttribute @Valid Comment newComment,
+                                 @PathVariable("id") int statusId,
+                                 Model model,
+                                 Errors errors) {
+
+        if (errors.hasErrors()) {
+            return "index";
+        }
+
+        Optional<Status> currentStatus = statusRepository.findById(statusId);
+        currentStatus.ifPresent(stat -> newComment.setStatus(stat));
+        commentRepository.save(newComment);
+
+
+        return "redirect:/status/" + statusId;
+    }
+
 }

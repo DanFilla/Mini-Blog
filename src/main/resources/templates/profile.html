@@ -10,11 +10,20 @@
 
 <div class="sidebar">
     <h3 class="userTitle" th:text="${username}"></h3>
-    <a class="active" href="#">sdfasdf</a>
-    <form id="friendButton" method="post" th:action="@{/friend/{id}(id = ${id})}">
+    <form id="friendButton" method="post" th:if="${isFriend != true}" th:action="@{/friend/{id}(id = ${id})}">
 <!--        <input type="hidden" th:field="${id}"/>-->
         <input value="Request Friend" type="submit"/>
     </form>
+    <h3>Friends</h3>
+    <table th:each="friend : ${friendsList}">
+        <tr>
+            <div class="username-container">
+                <a th:href="@{profile/{id}(id = ${friend.getId()})}">
+                    <h6 th:text="${friend.getUsername()}"></h6>
+                </a>
+            </div>
+        </tr>
+    </table>
 </div>
 
 <body>

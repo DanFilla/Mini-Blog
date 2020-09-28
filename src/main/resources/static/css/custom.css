@@ -60,6 +60,12 @@ a, a:hover, a:focus, a:active {
     padding: 60px;
 }
 
+.sent-list {
+    display : inline-block;
+    padding : 60px;
+}
+
+
 .statusBox {
     height : 80vh;
     overflow: auto;

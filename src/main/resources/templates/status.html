@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+</head>
+<nav th:replace="fragments :: nav"></nav>
+<div th:replace="fragments :: sidebar"></div>
+<body>
+
+<h3>Post</h3>
+<p th:text="${status.getBody()}"></p>
+
+<h3>Comments</h3>
+<th:block th:each="comment1 : ${commentList}">
+    <p th:text="${comment1.body}"></p>
+    <br>
+</th:block>
+
+<div class="status-input">
+    <form method="post" th:action="@{/comment/{id}(id = ${id})}">
+        <div class="form-group">
+            <input class="form-control" th:field="${comment.body}" />
+            <span th:errors="${comment.body}" class="error"></span>
+        </div>
+        <input type="submit" value="post" />
+    </form>
+</div>
+
+
+</body>
+</html>

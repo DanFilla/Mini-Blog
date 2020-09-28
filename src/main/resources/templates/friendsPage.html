@@ -27,8 +27,12 @@
     <div class="pendingList">
         <h1>Pending List</h1>
         <block th:each="friend : ${pendingList}">
-            <h3 style="display: inline" th:text="${friend.getUsername()}"></h3>
-            <span><a class="btn btn-success" th:href="@{friend/add/{id}(id = ${friend.getId()})}">Add Friend</a></span>
+            <div class="username-container">
+                <a th:href="@{profile/{id}(id = ${friend.getId()})}">
+                    <h3 style="display: inline;" th:text="${friend.getUsername()}"></h3>
+                    <span><a class="btn btn-success" th:href="@{friend/remove/{id}(id = ${friend.getId()})}">Add Friend</a></span>
+                </a>
+            </div>
             <br>
         </block>
     </div>
@@ -39,7 +43,7 @@
             <div class="username-container">
                 <a th:href="@{profile/{id}(id = ${friend.getId()})}">
                     <h3 style="display: inline;" th:text="${friend.getUsername()}"></h3>
-                    <span><a class="btn btn-danger" th:href="@{friend/remove/{id}(id = ${friend.getId()})}">Remove Friend</a></span>
+                    <span><a class="btn btn-danger" th:href="@{friend/remove/{id}(id = ${friend.getId()})}">Remove Request</a></span>
                 </a>
             </div>
             <br>

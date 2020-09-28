@@ -29,6 +29,8 @@
     <div class="status-container">
         <p th:text="${status.body}"></p>
     </div>
+    <a class="btn btn-primary btn-sm" th:href="@{status/{id}(id = ${status.getId()})}">Comment</a>
+    <br>
 </th:block>
 </div>
 

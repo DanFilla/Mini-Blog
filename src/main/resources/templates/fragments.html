@@ -26,4 +26,13 @@
     <h3 class="userTitle" th:text="${username}"></h3>
     <a class="btn btn-primary" th:href="@{/friend}">Friends Settings</a>
     <h3>Friends</h3>
+    <table th:each="friend : ${friendsList}">
+        <tr>
+            <div class="username-container">
+                <a th:href="@{profile/{id}(id = ${friend.getId()})}">
+                    <h6 th:if="${friend.getUsername()} != ${username}" th:text="${friend.getUsername()}"></h6>
+                </a>
+            </div>
+        </tr>
+    </table>
 </div>
