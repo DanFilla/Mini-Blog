@@ -15,6 +15,7 @@
 
 <h3>Comments</h3>
 <th:block th:each="comment1 : ${commentList}">
+    <h3 th:text="${comment1.getUser().getUsername()}"></h3>
     <p th:text="${comment1.body}"></p>
     <br>
 </th:block>

@@ -1,8 +1,10 @@
 package com.miniblog.miniblog.models;
 
 import com.sun.istack.NotNull;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "post")
@@ -12,6 +14,10 @@ public class Status {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "post_id")
     private int id;
+
+    @CreatedDate
+    @Column(name = "created_date")
+    private Date createdDate;
 
     @Column(name = "body", columnDefinition = "TEXT")
     private String body;

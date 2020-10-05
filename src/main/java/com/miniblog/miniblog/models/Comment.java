@@ -17,12 +17,24 @@ public class Comment {
     @JoinColumn(name = "post_id", nullable = false)
     private Status status;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional=false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public int getId() {
         return id;
     }
 
     public String getBody() {
         return body;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setBody(String body) {

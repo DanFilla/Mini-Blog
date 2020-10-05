@@ -324,8 +324,13 @@ public class HomeController {
             return "index";
         }
 
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails)principal).getUsername();
+        User currentUser = userRepository.findByUsername(username);
+
         Optional<Status> currentStatus = statusRepository.findById(statusId);
         currentStatus.ifPresent(stat -> newComment.setStatus(stat));
+        currentStatus.ifPresent(stat -> newComment.setUser(currentUser));
         commentRepository.save(newComment);
 
 

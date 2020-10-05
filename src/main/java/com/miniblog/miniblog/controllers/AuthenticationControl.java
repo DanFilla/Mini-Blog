@@ -94,7 +94,7 @@ AuthenticationControl {
             errors.rejectValue("login", "no.login", "Could not perform login");
         }
 
-        return "/index";
+        return "redirect:/";
     }
 
 
